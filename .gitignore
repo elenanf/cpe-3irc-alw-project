@@ -1,0 +1,5 @@
+*.kra
+*-prof*
+conf/prof/
+src/fragments/prof/
+.idea
