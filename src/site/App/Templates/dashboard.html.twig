@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
+{% extends "base.html.twig" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Maquette Ferme Manager</title>
-    <link rel="stylesheet" href="../../Public/style.css">
+{% block title %}Ferme Manager{% endblock %}
 
-    <!-- Intégration du JS (Partie 2.1) -->
-    <!-- <script src="Public/JS/FermeEngine.js" defer></script> -->
-    <!-- <script src="Public/JS/main.js" defer></script> -->
-</head>
-
-<body>
+{% block content %}
 {% if session %}
     <h1>Ferme Manager</h1>
 
@@ -53,9 +44,4 @@
 {% else %}
     <div class="error">Vous n'avez pas accès ! Veuillez vous <a href="/login">authentifier</a></div>
 {% endif %}
-
-</body>
-
-</html>
-
-
+{% endblock %}
