@@ -12,24 +12,18 @@
 </head>
 
 <body>
-
-<?php if (!empty($_SESSION)) { ?>
-
+{% if session %}
     <h1>Ferme Manager</h1>
 
     <section id="inventory">
         <h2>Inventaire</h2>
 
-        <?php
-        foreach ($gameConfigRepository->getProducts() as $name => $product) {
-            ?>
-            <article id="product-<?php echo $name;?>">
-                <h3><span class="icon"><?php echo $product->icon;?></span> <?php echo $product->display ?></h3>
+        {% for name, product in products %}
+            <article id="product-{{ name }}">
+                <h3><span class="icon"> {{ product.icon }} </span> {{ product.display }} </h3>
                 <div>Stock : <output class="stock">0</output></div>
             </article>
-            <?php
-        }
-        ?>
+        {% endfor %}
     </section>
 
     <hr>
@@ -38,32 +32,27 @@
         <h2>Bâtiments</h2>
 
         <div>
-            <?php
-            foreach ($gameConfigRepository->getBuildings() as $name => $building) {
-                ?>
-                <article id="building-<?php echo $name;?>">
-                    <h3><?php echo $building->display ?> <br> (Niv. <output class="level">1</output>)</h3>
+            {% for name, building in buildings %}
+                <article id="building-{{ name }}">
+                    <h3> {{ building.display }} <br> (Niv. <output class="level">1</output>)</h3>
 
-                    <button class="harvest"><?php echo $building->action ?> <?php echo $building->production ?></button>
+                    <button class="harvest">{{ building.action }} {{ building.production }}</button>
 
                     <button class="upgrade">
                         Améliorer <br>
                         Coût : <output class="cost">
-                            <?php
-                            echo "1 " . $gameConfigRepository->getProduct($building->cost)->icon;
-                            ?>
+                            1
+                            {{ products[building.cost].icon }}
                         </output>
                     </button>
                 </article>
-                <?php
-            }
-            ?>
+            {% endfor %}
         </div>
     </section>
 
-<?php } else { ?>
+{% else %}
     <div class="error">Vous n'avez pas accès ! Veuillez vous <a href="/login">authentifier</a></div>
-<?php } ?>
+{% endif %}
 
 </body>
 

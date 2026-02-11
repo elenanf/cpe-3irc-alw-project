@@ -9,6 +9,5 @@ ini_set('display_errors', 'On');
 require_once('Framework/autoloader.php');
 
 // start the application
-session_start();
 $app = new Application();
 $app->run();

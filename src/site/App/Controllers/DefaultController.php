@@ -4,11 +4,26 @@ namespace App\Controllers;
 
 use App\Repositories\GameConfigRepository;
 use App\Repositories\UserRepository;
+use CPE\Framework\AbstractApplication;
 use CPE\Framework\AbstractController;
 use Exception;
+use Twig\Environment;
+use Twig\Extension\DebugExtension;
+use Twig\Loader\FilesystemLoader;
 
 class DefaultController extends AbstractController
 {
+    protected $twig;
+    public function __construct(AbstractApplication $app)
+    {
+        parent::__construct($app);
+        $this->twig = new Environment(new FilesystemLoader('App/Templates'), [
+            'cache' => false,
+            'debug' => true,
+        ]);
+        $this->twig->addExtension(new DebugExtension());
+    }
+
     public function index()
     {
         $data = "Bonjour le monde !";
@@ -32,6 +47,7 @@ class DefaultController extends AbstractController
 
     public function login()
     {
+
         $error = null;
 
         $repo = new UserRepository("Data/users.json");
@@ -55,20 +71,34 @@ class DefaultController extends AbstractController
 
 
         }
-        $this->app->view()->setParam('error', $error);
-        $this->app->view()->render('login.tpl.php');
+
+        $session = false;
+        if (!empty($_SESSION)) {
+            $session = true;
+            $username = $_SESSION["user"]["login"];
+        }
+
+
+        echo $this->twig->render('login.html.twig', [
+            'session' => $session,
+            'error' => $error,
+            'username' => $username
+        ]);
     }
 
     public function dashboard()
     {
         $gameConfigRepository = new GameConfigRepository("Data/Config/game_config.json");
 
+        $session = true;
         if (empty($_SESSION)) {
             http_response_code(401);
+            $session = false;
         }
 
-        $this->app->view()->setParam('gameConfigRepository', $gameConfigRepository);
-        $this->app->view()->render('dashboard.tpl.php');
-
+        echo $this->twig->render('dashboard.html.twig', [
+            'session' => $session,
+            'buildings' => (array)$gameConfigRepository->getBuildings(),
+            'products' => (array)$gameConfigRepository->getProducts()]);
     }
 }
