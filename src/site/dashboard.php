@@ -14,6 +14,7 @@ if (empty($_SESSION)) {
     <head>
         <meta charset="UTF-8">
         <title>Accès Refusé</title>
+        <link rel="stylesheet" href="Public/style.css">
     </head>
     <body>
     <div class="error">Vous n'avez pas accès ! Veuillez vous <a href="login.php">authentifier</a></div>
@@ -30,21 +31,7 @@ if (empty($_SESSION)) {
 <head>
     <meta charset="UTF-8">
     <title>Maquette Ferme Manager</title>
-    <style>
-        /* Styles indicatifs (non imposés) */
-        article {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin: 5px;
-            display: inline-block;
-            width: 200px;
-            vertical-align: top;
-        }
-
-        .icon {
-            font-size: 2em;
-        }
-    </style>
+    <link rel="stylesheet" href="Public/style.css">
 
     <!-- Intégration du JS (Partie 2.1) -->
     <!-- <script src="Public/JS/FermeEngine.js" defer></script> -->
@@ -62,7 +49,7 @@ if (empty($_SESSION)) {
         foreach ($gameConfigRepository->getProducts() as $name => $product) {
             ?>
             <article id="product-<?php echo $name;?>">
-                <h3><?php echo $product->icon;?> <?php echo $product->display ?></h3>
+                <h3><span class="icon"><?php echo $product->icon;?></span> <?php echo $product->display ?></h3>
                 <div>Stock : <output class="stock">0</output></div>
             </article>
             <?php
