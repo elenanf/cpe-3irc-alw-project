@@ -1,9 +1,9 @@
 <?php
 
-// namespace App\Repositories;
+namespace App\Repositories;
 
-// use App\Models\User;
-// use Exception;
+use App\Models\User;
+use Exception;
 
 class UserRepository
 {
