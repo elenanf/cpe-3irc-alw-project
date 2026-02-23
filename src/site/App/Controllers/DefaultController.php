@@ -42,7 +42,7 @@ class DefaultController extends AbstractController
     public function error404()
     {
         http_response_code(404);
-        $this->app->view()->render('404.tpl.php');
+        $this->twig->render('404.html.twig');
     }
 
     public function login()
@@ -73,6 +73,7 @@ class DefaultController extends AbstractController
         }
 
         $session = false;
+        $username = null;
         if (!empty($_SESSION)) {
             $session = true;
             $username = $_SESSION["user"]["login"];
@@ -100,5 +101,12 @@ class DefaultController extends AbstractController
             'session' => $session,
             'buildings' => (array)$gameConfigRepository->getBuildings(),
             'products' => (array)$gameConfigRepository->getProducts()]);
+    }
+
+    public function logout()
+    {
+        session_destroy();
+        header("Location: /login");
+        exit();
     }
 }

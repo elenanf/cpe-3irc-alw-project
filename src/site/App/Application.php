@@ -21,6 +21,7 @@ class Application extends AbstractApplication
         $this->router->map('GET', '/login', DefaultController::class, 'login');
         $this->router->map('GET', '/dashboard', DefaultController::class, 'dashboard');
         $this->router->map('POST', '/login', DefaultController::class, 'login');
+        $this->router->map('GET', '/logout', DefaultController::class, 'logout');
 
         $route = $this->router->findRoute();
         $controller = $this->router->getController($route->controller);
