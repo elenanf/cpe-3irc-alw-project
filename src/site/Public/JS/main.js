@@ -16,9 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
     engine.onLoadState(() => {
         console.log(`Rafraîchissement de l'état global du jeu`);
 
-        // TODO: coder le chargement puis l'affichage de l'inventaire
+        fetch(API_URL + "api/players/" + username + "/inventory")
+            .then((response) => response.json())
+            .then((data) => {
 
-        // TODO: coder le chargement puis l'affichage des bâtiments
+                console.log(Object.entries(data))
+                inventory = document.getElementById("inventory");
+                Object.entries(data).forEach((stock) => {
+                    product = document.getElementById("product-" + stock[0])
+                    if (product) {
+                        product.getElementsByClassName("stock")[0].textContent = stock[1]
+                    }
+                })
+            });
+
+        fetch(API_URL + "api/players/" + username + "/buildings")
+            .then((response) => response.json())
+            .then((data) => {
+                engine.renderBuildings(data)
+            });
+
     });
 
     // Au clic sur "Récolter"

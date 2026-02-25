@@ -12,7 +12,7 @@
         {% for name, product in products %}
             <article id="product-{{ name }}">
                 <h3><span class="icon"> {{ product.icon }} </span> {{ product.display }} </h3>
-                <div>Stock : <output class="stock">0</output></div>
+                <div>Stock : <output class="stock"></output></div>
             </article>
         {% endfor %}
     </section>

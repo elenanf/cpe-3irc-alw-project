@@ -6,8 +6,7 @@
             "action": "Récolter",
             "initial_rate": 5,
             "initial_time": 10,
-            "upgrade_cost_multiplier": 10,
-            "cost": "ble"
+            "upgrade_cost_multiplier": 10
         },
         "puits": {
             "display": "Puits",
@@ -18,8 +17,7 @@
             "upgrade_cost_multiplier": 5,
             "requirements": {
                 "champ_ble": 3
-            },
-            "cost": "ble"
+            }
         },
         "poulailler": {
             "display": "Poulailler",
@@ -30,8 +28,7 @@
             "upgrade_cost_multiplier": 15,
             "requirements": {
                 "champ_ble": 5
-            },
-            "cost": "ble"
+            }
         },
         "moulin": {
             "display": "Moulin",
@@ -48,8 +45,7 @@
             "upgrade_cost_multiplier": 12,
             "requirements": {
                 "champ_ble": 5
-            },
-            "cost": "ble"
+            }
         },
         "fournil": {
             "display": "Fournil",
@@ -71,8 +67,7 @@
             "requirements": {
                 "moulin": 2,
                 "puits": 2
-            },
-            "cost": "farine"
+            }
         },
         "patisserie": {
             "display": "Pâtisserie",
@@ -98,8 +93,7 @@
             "requirements": {
                 "fournil": 3,
                 "poulailler": 2
-            },
-            "cost": "farine"
+            }
         }
     },
     "products": {
