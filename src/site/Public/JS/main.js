@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((response) => response.json())
             .then((data) => {
 
-                console.log(Object.entries(data))
                 inventory = document.getElementById("inventory");
                 Object.entries(data).forEach((stock) => {
                     product = document.getElementById("product-" + stock[0])
