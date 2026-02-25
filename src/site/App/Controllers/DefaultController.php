@@ -89,7 +89,7 @@ class DefaultController extends AbstractController
 
     public function dashboard()
     {
-        $gameConfigRepository = new GameConfigRepository("Data/Config/game_config.json");
+        $gameConfigRepository = new GameConfigRepository("Data/Config/game_config_extended.json");
 
         $session = true;
         if (empty($_SESSION)) {
