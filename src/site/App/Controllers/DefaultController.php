@@ -92,15 +92,20 @@ class DefaultController extends AbstractController
         $gameConfigRepository = new GameConfigRepository("Data/Config/game_config.json");
 
         $session = true;
+        $username = NULL;
         if (empty($_SESSION)) {
             http_response_code(401);
             $session = false;
+        } else {
+            $username = $_SESSION["user"]["login"];
         }
 
         echo $this->twig->render('dashboard.html.twig', [
             'session' => $session,
             'buildings' => (array)$gameConfigRepository->getBuildings(),
-            'products' => (array)$gameConfigRepository->getProducts()]);
+            'products' => (array)$gameConfigRepository->getProducts(),
+            'username' => $username
+        ]);
     }
 
     public function logout()

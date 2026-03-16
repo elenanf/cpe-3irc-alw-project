@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Repositories\GameConfigRepository;
 use App\Repositories\SaveRepository;
 use App\Repositories\UserRepository;
 use CPE\Framework\AbstractApplication;
@@ -11,11 +12,13 @@ class PlayersSaveController extends AbstractController
 {
     protected $saveRepository;
     protected $userRepository;
+    protected $gameConfig;
 
     public function __construct(AbstractApplication $app)
     {
         $this->saveRepository = new SaveRepository("Data/Saves/", "Data/Config/save_initial.json");
         $this->userRepository = new UserRepository("Data/users.json");
+        $this->gameConfig = new GameConfigRepository("Data/Config/game_config.json");
         parent::__construct($app);
     }
 
@@ -101,4 +104,28 @@ class PlayersSaveController extends AbstractController
         $this->saveRepository->setLevel($user->login, $building, $value);
     }
 
+    public function harvest(): void
+    {
+        $user = $this->userRepository->get($this->parameters["name"]);
+        $buildingName = $this->parameters["buildingName"];
+
+        if (!$user || !$buildingName) {
+            http_response_code(404);
+            exit();
+        }
+
+        $save = $this->saveRepository->load($user->login);
+        $inventory = $save->inventory;
+
+        $building = $this->gameConfig->getBuilding($buildingName);
+        $production = $building->production;
+
+        $inventory->$production += 1;
+
+        $save->inventory = $inventory;
+        $this->saveRepository->save($user->login, $save);
+
+        header('Content-Type: application/json');
+        echo json_encode($save);
+    }
 }

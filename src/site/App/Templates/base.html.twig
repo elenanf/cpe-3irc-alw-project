@@ -13,7 +13,7 @@
         <title>{% block title %}{% endblock %}</title>
     {% endblock %}
 </head>
-<body>
+<body {% if session and username %} data-login="{{ username }}" {% endif %} >
         <nav>
                 <ol>
                         {% if not session %}

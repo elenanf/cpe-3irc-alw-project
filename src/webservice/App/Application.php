@@ -22,6 +22,7 @@ class Application extends AbstractApplication
         $this->router->map('GET', '/api/players/{string:name}/inventory', PlayersSaveController::class, 'getPlayersInventory');
         $this->router->map('GET', '/api/players/{string:name}/buildings', PlayersSaveController::class, 'getPlayersBuildings');
         $this->router->map('GET', '/api/players/{string:name}/inventory/{string:product}', PlayersSaveController::class, 'getProduct');
+        $this->router->map('POST', '/api/players/{string:name}/harvest/{string:buildingName}', PlayersSaveController::class, 'harvest');
 
         $route = $this->router->findRoute();
         $controller = $this->router->getController($route->controller);

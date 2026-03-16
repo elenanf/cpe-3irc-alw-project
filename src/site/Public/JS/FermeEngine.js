@@ -26,9 +26,7 @@ class FermeEngine {
         };
 
         // Délai avant d'attacher les événements pour s'assurer que le DOM est prêt
-        document.addEventListener("DOMContentLoaded", () => {
-            this.attachEvents();
-        });
+        this.attachEvents();
     }
 
     /**
@@ -113,7 +111,6 @@ class FermeEngine {
         const batiments = document.querySelectorAll('#buildings article');
         batiments.forEach(batiment => {
             const buildingId = batiment.id.replace('building-', '');
-
             const harvestBtn = batiment.querySelector('.harvest');
             if (harvestBtn) {
                 harvestBtn.addEventListener('click', async () => {

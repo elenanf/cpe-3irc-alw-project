@@ -7,15 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Rappel : URL vers le webservice
     const API_URL = "http://localhost:50181/";
 
-    // TODO: Récupérer le nom du joueur dynamiquement (ex: data-attribute sur le body)
-    const username = "bean"; // À remplacer
+    const username = document.body.dataset.login;
 
     const engine = new FermeEngine();
 
     // Chargement de l'état
     engine.onLoadState(() => {
-        console.log(`Rafraîchissement de l'état global du jeu`);
-
         fetch(API_URL + "api/players/" + username + "/inventory")
             .then((response) => response.json())
             .then((data) => {
@@ -38,11 +35,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Au clic sur "Récolter"
-    engine.onHarvest((buildingId) => {
-        console.log(`Récolte demandée sur ${buildingId}`);
+    engine.onHarvest((buildingName) => {
+        console.log(`Récolte demandée sur ${buildingName}`);
         // TODO: coder l'appel API pour récolter/produire une ressource depuis un bâtiment donné
         // IMPORTANT: Retournez la promesse du fetch avec le mot clé 'return'
         // ex: return fetch(...);
+
+        return fetch(API_URL + "api/players/" + username + "/harvest/" + buildingName, {
+            method: "POST"
+        })
+            //.then((response) => response.json());
     });
 
     // Au clic sur "Améliorer"
@@ -51,6 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
         // TODO: Coder l'appel API pour augmenter le niveau d'un bâtiment donné
         // IMPORTANT: Retournez la promesse du fetch avec le mot clé 'return'
         // ex: return fetch(...);
+
+
     });
 
     // Démarrage
