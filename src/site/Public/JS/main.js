@@ -36,25 +36,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Au clic sur "Récolter"
     engine.onHarvest((buildingName) => {
-        console.log(`Récolte demandée sur ${buildingName}`);
-        // TODO: coder l'appel API pour récolter/produire une ressource depuis un bâtiment donné
-        // IMPORTANT: Retournez la promesse du fetch avec le mot clé 'return'
-        // ex: return fetch(...);
-
         return fetch(API_URL + "api/players/" + username + "/harvest/" + buildingName, {
             method: "POST"
         })
-            //.then((response) => response.json());
     });
 
     // Au clic sur "Améliorer"
-    engine.onUpgrade((buildingId) => {
-        console.log(`Amélioration demandée sur ${buildingId}`);
+    engine.onUpgrade((buildingName) => {
+        console.log(`Amélioration demandée sur ${buildingName}`);
         // TODO: Coder l'appel API pour augmenter le niveau d'un bâtiment donné
         // IMPORTANT: Retournez la promesse du fetch avec le mot clé 'return'
         // ex: return fetch(...);
 
-
+        return fetch(API_URL + "api/players/" + username + "/upgrade/" + buildingName, {
+            method: "POST"
+        })
     });
 
     // Démarrage

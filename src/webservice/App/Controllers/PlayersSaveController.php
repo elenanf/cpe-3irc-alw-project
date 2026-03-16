@@ -128,4 +128,30 @@ class PlayersSaveController extends AbstractController
         header('Content-Type: application/json');
         echo json_encode($save);
     }
+
+    public function upgrade(): void
+    {
+        $user = $this->userRepository->get($this->parameters["name"]);
+        $buildingName = $this->parameters["buildingName"];
+
+        if (!$user || !$buildingName) {
+            http_response_code(404);
+            exit();
+        }
+
+        $save = $this->saveRepository->load($user->login);
+        $inventory = $save->inventory;
+        $building = $this->gameConfig->getBuilding($buildingName);
+
+        $costResource = $building->cost;
+        $inventory->{$costResource} -= 20;
+
+        $save->buildings->{$buildingName}->level += 1;
+
+        $save->inventory = $inventory;
+        $this->saveRepository->save($user->login, $save);
+
+        header('Content-Type: application/json');
+        echo json_encode($save);
+    }
 }
