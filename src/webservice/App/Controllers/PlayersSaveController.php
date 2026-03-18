@@ -120,7 +120,8 @@ class PlayersSaveController extends AbstractController
         $building = $this->gameConfig->getBuilding($buildingName);
         $production = $building->production;
 
-        $inventory->$production += 1;
+        $productionAmount = $save->buildings->{$buildingName}->level;
+        $inventory->$production += $productionAmount;
 
         $save->inventory = $inventory;
         $this->saveRepository->save($user->login, $save);
@@ -144,7 +145,14 @@ class PlayersSaveController extends AbstractController
         $building = $this->gameConfig->getBuilding($buildingName);
 
         $costResource = $building->cost;
-        $inventory->{$costResource} -= 20;
+        $updatingCost = $this->gameConfig->getUpgradeCost($buildingName, ($save->buildings->{$buildingName}->level + 1));
+
+        if(($inventory->{$costResource} - $updatingCost) > 0) {
+            $inventory->{$costResource} -= $updatingCost;
+        } else {
+            echo json_encode("Inventaire insuffisant");
+            exit();
+        }
 
         $save->buildings->{$buildingName}->level += 1;
 
