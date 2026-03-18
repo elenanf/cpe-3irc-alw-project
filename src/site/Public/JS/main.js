@@ -17,9 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .then((response) => response.json())
             .then((data) => {
 
-                inventory = document.getElementById("inventory");
                 Object.entries(data).forEach((stock) => {
-                    product = document.getElementById("product-" + stock[0])
+                    let product = document.getElementById("product-" + stock[0])
                     if (product) {
                         product.getElementsByClassName("stock")[0].textContent = stock[1]
                     }

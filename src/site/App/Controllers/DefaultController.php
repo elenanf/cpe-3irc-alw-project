@@ -47,10 +47,10 @@ class DefaultController extends AbstractController
 
     public function login()
     {
-
-        $error = null;
-
         $repo = new UserRepository("Data/users.json");
+
+        $error = $_SESSION["error"] ?? null;
+        unset($_SESSION["error"]);
 
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
@@ -59,26 +59,30 @@ class DefaultController extends AbstractController
                     $user = $repo->get($_POST["username"]);
                     if ($user != null && password_verify($_POST["password"], $user->password_hash)) {
                         $_SESSION["user"]["login"] = $user->login;
+                        header('Location: /dashboard', true, 302);
                     } else {
-                        $error = "Le login ou le mot de passe est incorrect";
+                        $_SESSION["error"] = "Le login ou le mot de passe est incorrect";
+                        header('Location: /login', true, 302);
                     }
                 } catch (Exception $e) {
-                    $error = $e->getMessage();
+                    $_SESSION["error"] = $e->getMessage();
+                    header('Location: /login', true, 302);
+                    exit();
                 }
             } else {
-                $error = "Veuillez saisir le nom d'utilisateur et le password";
+                $_SESSION["error"] = "Veuillez saisir nom d'utilisateur ET mot de passe";
+                header('Location: /login', true, 302);
+                exit();
             }
-
 
         }
 
         $session = false;
         $username = null;
-        if (!empty($_SESSION)) {
+        if (!empty($_SESSION["user"])) {
             $session = true;
             $username = $_SESSION["user"]["login"];
         }
-
 
         echo $this->twig->render('login.html.twig', [
             'session' => $session,
@@ -93,7 +97,7 @@ class DefaultController extends AbstractController
 
         $session = true;
         $username = NULL;
-        if (empty($_SESSION)) {
+        if (empty($_SESSION["user"])) {
             http_response_code(401);
             $session = false;
         } else {
